@@ -932,7 +932,7 @@ html.light-mode {
 
     align-items: center;
 
-    gap: 5px;
+    gap: 4px;
   }
 
   .left-actions,
@@ -964,11 +964,17 @@ html.light-mode {
   .header h1 {
     margin: 0;
 
-    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 21px;
+    line-height: 1;
     letter-spacing: 2px;
 
     text-align: center;
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .new-game,

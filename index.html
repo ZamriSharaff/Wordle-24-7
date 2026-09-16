@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wordle 24/7</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png" />
     <script>
       const savedTheme = localStorage.getItem("wordle-theme");
       if (savedTheme === "light") {
@@ -32,7 +32,10 @@
             </button>
           </div>
 
-          <h1>WORDLE 24/7</h1>
+          <h1>
+            <span>WORDLE</span>
+            <span>24/7</span>
+          </h1>
 
           <div class="title-actions">
             <button
@@ -91,7 +94,6 @@
             ×
           </button>
 
-
           <div id="game-result">
             <h2 id="result-title">Game Over</h2>
 
@@ -138,7 +140,6 @@
               <small>Best</small>
             </div>
           </div>
-
 
           <div class="distribution">
             <h3>Guess Distribution</h3>
@@ -220,7 +221,6 @@
 
           <h3>Examples</h3>
 
-
           <div class="example-row">
             <div class="example-tile example-result" data-colour="green">G</div>
 
@@ -234,7 +234,6 @@
           </div>
 
           <p>The letter G is in the word and in the correct spot.</p>
-
 
           <div class="example-row">
             <div class="example-tile">H</div>
@@ -251,7 +250,6 @@
           </div>
 
           <p>The letter U is in the word but in the wrong spot.</p>
-
 
           <div class="example-row">
             <div class="example-tile">C</div>
