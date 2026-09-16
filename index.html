@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wordle</title>
+    <script>
+      const savedTheme = localStorage.getItem("wordle-theme");
+      if (savedTheme === "light") {
+        document.documentElement.classList.add("light-mode");
+      }
+    </script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game">
+      <header class="header">
+        <div class="title-row">
+          <div class="left-actions">
+            <button type="button" id="new-game" class="new-game">
+              NEW GAME
+            </button>
+
+            <button
+              type="button"
+              id="hard-mode"
+              class="hard-mode"
+              aria-label="Toggle hard mode"
+            >
+              HARD MODE
+            </button>
+          </div>
+
+          <h1>WORDLE 24/7</h1>
+
+          <div class="title-actions">
+            <button
+              type="button"
+              id="stats-button"
+              class="stats-button"
+              aria-label="Statistics"
+            >
+              📊︎
+            </button>
+
+            <button
+              type="button"
+              id="help-button"
+              class="help-button"
+              aria-label="How to play"
+            >
+              ?
+            </button>
+
+            <button
+              type="button"
+              id="theme-toggle"
+              class="theme-toggle"
+              aria-label="Switch to light mode"
+            >
+              ☀
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="board-container">
+        <section
+          id="board"
+          class="board"
+          aria-label="Wordle game board"
+        ></section>
+        <div id="message" class="message-popup"></div>
+      </div>
+
+      <section
+        id="keyboard"
+        class="keyboard"
+        aria-label="On-screen keyboard"
+      ></section>
+
+      <div id="result-overlay" class="result-overlay">
+        <div class="result-panel">
+          <button
+            type="button"
+            id="result-close"
+            class="modal-close"
+            aria-label="Close"
+          >
+            ×
+          </button>
+
+
+          <div id="game-result">
+            <h2 id="result-title">Game Over</h2>
+
+            <p id="result-message"></p>
+
+            <div class="result-details">
+              <p>
+                The word was
+                <span id="result-answer"></span>
+              </p>
+
+              <p>
+                Attempts:
+                <span id="result-attempts"></span>
+              </p>
+            </div>
+          </div>
+
+          <h3 class="statistics-title">Statistics</h3>
+
+          <div class="statistics">
+            <div class="stat">
+              <span id="stat-games">0</span>
+              <small>Played</small>
+            </div>
+
+            <div class="stat">
+              <span id="stat-wins">0</span>
+              <small>Wins</small>
+            </div>
+
+            <div class="stat">
+              <span id="stat-win-rate">0%</span>
+              <small>Win %</small>
+            </div>
+
+            <div class="stat">
+              <span id="stat-current-streak">0</span>
+              <small>Streak</small>
+            </div>
+
+            <div class="stat">
+              <span id="stat-best-streak">0</span>
+              <small>Best</small>
+            </div>
+          </div>
+
+
+          <div class="distribution">
+            <h3>Guess Distribution</h3>
+
+            <div class="distribution-row">
+              <span class="distribution-number">1</span>
+              <div class="distribution-bar">
+                <span id="distribution-1"></span>
+              </div>
+            </div>
+
+            <div class="distribution-row">
+              <span class="distribution-number">2</span>
+              <div class="distribution-bar">
+                <span id="distribution-2"></span>
+              </div>
+            </div>
+
+            <div class="distribution-row">
+              <span class="distribution-number">3</span>
+              <div class="distribution-bar">
+                <span id="distribution-3"></span>
+              </div>
+            </div>
+
+            <div class="distribution-row">
+              <span class="distribution-number">4</span>
+              <div class="distribution-bar">
+                <span id="distribution-4"></span>
+              </div>
+            </div>
+
+            <div class="distribution-row">
+              <span class="distribution-number">5</span>
+              <div class="distribution-bar">
+                <span id="distribution-5"></span>
+              </div>
+            </div>
+
+            <div class="distribution-row">
+              <span class="distribution-number">6</span>
+              <div class="distribution-bar">
+                <span id="distribution-6"></span>
+              </div>
+            </div>
+          </div>
+          <button type="button" id="play-again" class="play-again">
+            Play Again
+          </button>
+        </div>
+      </div>
+
+      <div id="help-overlay" class="modal-overlay">
+        <div class="help-panel">
+          <button
+            type="button"
+            id="help-close"
+            class="modal-close"
+            aria-label="Close"
+          >
+            ×
+          </button>
+
+          <h2>HOW TO PLAY</h2>
+
+          <p>Guess the hidden word in 6 tries.</p>
+
+          <p>
+            Each guess must be a valid 5 letter word. You cannot enter random
+            letters. Hit the enter button to submit the guess.
+          </p>
+
+          <p>
+            After your submission, the color of the tiles will change as in the
+            examples below.
+          </p>
+
+          <hr />
+
+          <h3>Examples</h3>
+
+
+          <div class="example-row">
+            <div class="example-tile example-result" data-colour="green">G</div>
+
+            <div class="example-tile">L</div>
+
+            <div class="example-tile">O</div>
+
+            <div class="example-tile">B</div>
+
+            <div class="example-tile">E</div>
+          </div>
+
+          <p>The letter G is in the word and in the correct spot.</p>
+
+
+          <div class="example-row">
+            <div class="example-tile">H</div>
+
+            <div class="example-tile">O</div>
+
+            <div class="example-tile example-result" data-colour="yellow">
+              U
+            </div>
+
+            <div class="example-tile">S</div>
+
+            <div class="example-tile">E</div>
+          </div>
+
+          <p>The letter U is in the word but in the wrong spot.</p>
+
+
+          <div class="example-row">
+            <div class="example-tile">C</div>
+
+            <div class="example-tile">R</div>
+
+            <div class="example-tile">A</div>
+
+            <div class="example-tile">N</div>
+
+            <div class="example-tile example-result" data-colour="grey">E</div>
+          </div>
+
+          <p>The letter E is not in the word in any spot.</p>
+        </div>
+      </div>
+
+      <div id="hard-mode-overlay" class="modal-overlay">
+        <div class="hard-mode-panel">
+          <button
+            type="button"
+            id="hard-mode-close"
+            class="modal-close"
+            aria-label="Close"
+          >
+            ×
+          </button>
+
+          <h2>HARD MODE</h2>
+
+          <p>Any revealed hints must be used in subsequent guesses.</p>
+        </div>
+      </div>
+    </main>
+    <script src="wordle_script.js"></script>
+  </body>
+</html>

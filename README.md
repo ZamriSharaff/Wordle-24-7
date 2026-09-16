@@ -1,2 +1,5 @@
-# Wordle_Game
-My browser based Wordle game coded with HTML, CSS and JavaScript
+# Wordle 24/7
+My browser based Wordle 24/7 game coded with HTML, CSS and JavaScript
+
+## More information to be added to this README
+## Documentation to be added in coding files
