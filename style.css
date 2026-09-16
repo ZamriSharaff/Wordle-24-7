@@ -908,7 +908,7 @@ html.light-mode {
     min-height: 100dvh;
     overflow-x: hidden;
     box-sizing: border-box;
-    padding-bottom: 195px;
+    padding-bottom: 245px;
   }
 
   .game {
@@ -1064,13 +1064,13 @@ html.light-mode {
   }
 
   .key {
-    height: 55px;
+    height: 70px;
 
     padding: 0 4px;
 
     border-radius: 4px;
 
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   .new-game:hover,
