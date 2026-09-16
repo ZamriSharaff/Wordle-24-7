@@ -904,82 +904,206 @@ html.light-mode {
 }
 
 @media (max-width: 500px) {
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    padding-bottom: 170px;
+  }
+
+  .game {
+    width: 100%;
+    max-width: none;
+    padding: 8px 6px;
+  }
+
+  .header {
+    margin-bottom: 0;
+    padding-bottom: 8px;
+  }
+
   .title-row {
     position: relative;
+
     width: 100%;
+
     display: grid;
     grid-template-columns: auto 1fr auto;
+
     align-items: center;
-    gap: 8px;
-    box-sizing: border-box;
+
+    gap: 5px;
   }
 
   .left-actions,
   .title-actions {
     position: static;
+    left: auto;
+    right: auto;
     transform: none;
   }
 
   .left-actions {
     justify-self: start;
+
     display: flex;
-    gap: 4px;
+    align-items: center;
+
+    gap: 3px;
   }
 
   .title-actions {
     justify-self: end;
+
     display: flex;
-    gap: 4px;
+    align-items: center;
+
+    gap: 3px;
   }
 
-  .title-row h1 {
+  .header h1 {
     margin: 0;
+
+    font-size: 20px;
+    letter-spacing: 2px;
+
     text-align: center;
     white-space: nowrap;
-    font-size: 27px;
-    letter-spacing: 3px;
   }
 
   .new-game,
   .hard-mode {
-    font-size: 11px;
-    min-width: 0;
-    padding: 7px 6px;
+    padding: 5px 4px;
+
+    font-size: 9px;
+
+    line-height: 1.05;
+
+    white-space: nowrap;
   }
 
-  .stats-button,
-  .help-button,
-  .theme-toggle {
+  .theme-toggle,
+  .help-button {
+    width: 34px;
+    height: 34px;
+
     flex-shrink: 0;
+  }
+
+  .stats-button {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    font-size: 1.2rem;
+  }
+
+  .board-container {
+    width: min(350px, calc(100vw - 24px));
+
+    margin: 100px auto 0;
+  }
+
+  .board {
+    gap: 5px;
+
+    width: 100%;
+
+    margin-top: 0;
+  }
+
+  .tile {
+    border-width: 2px;
+
+    font-size: 1.8rem;
   }
 
   .keyboard {
     position: fixed;
+
     left: 0;
     right: 0;
     bottom: 0;
+
     width: 100%;
+    max-width: none;
+
     margin: 0;
-    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
     box-sizing: border-box;
+
     z-index: 20;
   }
 
-  body {
-    min-height: 100dvh;
-    padding-bottom: 245px;
-    box-sizing: border-box;
+  .keyboard-row {
+    width: 100%;
+
+    gap: 4px;
   }
 
-  .board {
-    margin-top: 110px;
+  .keyboard-row:nth-child(2) {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .key {
+    height: 48px;
+
+    padding: 0 4px;
+
+    border-radius: 4px;
+
+    font-size: 0.75rem;
+  }
+
+  .new-game:hover,
+  .hard-mode:hover,
+  .help-button:hover,
+  .theme-toggle:hover {
+    background-color: transparent;
+  }
+
+  .hard-mode.enabled:hover {
+    background-color: var(--green);
+  }
+
+  .stats-button:hover {
+    opacity: 1;
+  }
+
+  .key:hover {
+    background-color: var(--keyboard);
+  }
+
+  .key.green:hover {
+    background-color: var(--green);
+  }
+
+  .key.yellow:hover {
+    background-color: var(--yellow);
+  }
+
+  .key.grey:hover {
+    background-color: var(--grey);
   }
 
   button {
     -webkit-tap-highlight-color: transparent;
   }
 
-  button:active {
+  .new-game:active,
+  .hard-mode:active,
+  .help-button:active,
+  .theme-toggle:active,
+  .stats-button:active {
     -webkit-tap-highlight-color: transparent;
   }
 }
