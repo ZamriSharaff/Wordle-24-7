@@ -1,3 +1,13 @@
+import {
+  parseWordList,
+  chooseRandomWord,
+  isAllowedGuess,
+  validateHardModeGuess,
+  evaluateGuess,
+  calculateWinRate,
+  updateGameStatistics
+} from "./wordle_logic.js";
+
 let answerList = [];
 let allowedGuesses = [];
 let answer = "";
@@ -30,18 +40,12 @@ async function loadWordLists() {
   const answerResponse = await fetch("wordle_answers_list.txt");
   const answerText = await answerResponse.text();
 
-  answerList = answerText
-    .split(/\r?\n/)
-    .map((word) => word.trim().toUpperCase())
-    .filter((word) => word.length === 5);
+  answerList = parseWordList(answerText);
 
   const guessResponse = await fetch("wordle_allowed_guesses.txt");
   const guessText = await guessResponse.text();
 
-  allowedGuesses = guessText
-    .split(/\r?\n/)
-    .map((word) => word.trim().toUpperCase())
-    .filter((word) => word.length === 5);
+  allowedGuesses = parseWordList(guessText);
 
   console.log("Answers:", answerList.length);
   console.log("Allowed guesses:", allowedGuesses.length);
@@ -162,19 +166,23 @@ function loadGameState() {
  * @param {boolean} won Whether the game was won.
  */
 function recordGameResult(won) {
-  gamesPlayed++;
+  const updatedStatistics = updateGameStatistics(
+    {
+      gamesPlayed,
+      wins,
+      currentStreak,
+      bestStreak,
+      guessDistribution
+    },
+    won,
+    count
+  );
 
-  if (won) {
-    wins++;
-    currentStreak++;
-    guessDistribution[count - 1]++;
-
-    if (currentStreak > bestStreak) {
-      bestStreak = currentStreak;
-    }
-  } else {
-    currentStreak = 0;
-  }
+  gamesPlayed = updatedStatistics.gamesPlayed;
+  wins = updatedStatistics.wins;
+  currentStreak = updatedStatistics.currentStreak;
+  bestStreak = updatedStatistics.bestStreak;
+  guessDistribution = updatedStatistics.guessDistribution;
 
   saveStatistics();
 }
@@ -186,8 +194,7 @@ function updateStatisticsDisplay() {
   document.getElementById("stat-games").textContent = gamesPlayed;
   document.getElementById("stat-wins").textContent = wins;
 
-  const winRate =
-    gamesPlayed === 0 ? 0 : Math.round((wins / gamesPlayed) * 100);
+  const winRate = calculateWinRate(gamesPlayed, wins);
 
   document.getElementById("stat-win-rate").textContent = `${winRate}%`;
   document.getElementById("stat-current-streak").textContent = currentStreak;
@@ -213,8 +220,7 @@ function updateGuessDistribution() {
  * Chooses a random word from the answer list for the current game.
  */
 function chooseAnswer() {
-  const randomIndex = Math.floor(Math.random() * answerList.length);
-  answer = answerList[randomIndex];
+  answer = chooseRandomWord(answerList);
 
   console.log("Today's answer:", answer);
 }
@@ -451,8 +457,11 @@ function validateGuess() {
     return false;
   }
 
-  const validGuess =
-    allowedGuesses.includes(currentGuess) || answerList.includes(currentGuess);
+  const validGuess = isAllowedGuess(
+    currentGuess,
+    allowedGuesses,
+    answerList
+  );
 
   if (!validGuess) {
     showMessage("Not in word list");
@@ -473,22 +482,16 @@ function validateHardMode() {
     return true;
   }
 
-  for (let i = 0; i < 5; i++) {
-    if (greenHints[i] !== null && currentGuess[i] !== greenHints[i]) {
-      showMessage(`You must use ${greenHints[i]} in position ${i + 1}`);
-      shakeCurrentRow();
+  const result = validateHardModeGuess(
+    currentGuess,
+    greenHints,
+    requiredLetters
+  );
 
-      return false;
-    }
-  }
-
-  for (const letter of requiredLetters) {
-    if (!currentGuess.includes(letter)) {
-      showMessage(`Your guess must contain ${letter}`);
-      shakeCurrentRow();
-
-      return false;
-    }
+  if (!result.valid) {
+    showMessage(result.message);
+    shakeCurrentRow();
+    return false;
   }
 
   return true;
@@ -500,30 +503,15 @@ function validateHardMode() {
  * @returns {string[]} The colours to use for the five tiles.
  */
 function checkGuess() {
-  const answerLetters = answer.split("");
-  const colours = ["grey", "grey", "grey", "grey", "grey"];
-
-  for (let i = 0; i < 5; i++) {
-    if (currentGuess[i] === answerLetters[i]) {
-      colours[i] = "green";
-      answerLetters[i] = null;
-      greenHints[i] = currentGuess[i];
-      requiredLetters.add(currentGuess[i]);
-    }
-  }
+  const colours = evaluateGuess(currentGuess, answer);
 
   for (let i = 0; i < 5; i++) {
     if (colours[i] === "green") {
-      continue;
-    }
-
-    if (answerLetters.includes(currentGuess[i])) {
-      colours[i] = "yellow";
-      const index = answerLetters.indexOf(currentGuess[i]);
-      answerLetters[index] = null;
+      greenHints[i] = currentGuess[i];
+      requiredLetters.add(currentGuess[i]);
+    } else if (colours[i] === "yellow") {
       requiredLetters.add(currentGuess[i]);
     } else {
-      colours[i] = "grey";
       bannedLetters.add(currentGuess[i]);
     }
   }
