@@ -906,15 +906,22 @@ html.light-mode {
 @media (max-width: 500px) {
   body {
     min-height: 100dvh;
-    overflow-x: hidden;
+    overflow: hidden;
     box-sizing: border-box;
-    padding-bottom: 245px;
   }
 
   .game {
     width: 100%;
     max-width: none;
-    padding: 8px 6px;
+
+    height: 100dvh;
+
+    padding: 8px 6px 0;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    box-sizing: border-box;
   }
 
   .header {
@@ -939,8 +946,10 @@ html.light-mode {
   .left-actions,
   .title-actions {
     position: static;
+
     left: auto;
     right: auto;
+
     transform: none;
   }
 
@@ -967,6 +976,7 @@ html.light-mode {
 
     display: flex;
     flex-direction: column;
+
     justify-content: center;
     align-items: center;
 
@@ -983,7 +993,6 @@ html.light-mode {
     padding: 7px 5px;
 
     font-size: 10px;
-
     line-height: 1.05;
 
     white-space: nowrap;
@@ -1007,40 +1016,43 @@ html.light-mode {
   }
 
   .board-container {
-    width: min(350px, calc(100vw - 24px));
+    width: 100%;
+    min-height: 0;
 
-    margin: 100px auto 0;
+    margin: 0;
 
-    transform: translateY(-24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .board {
+    width: min(350px, calc(100vw - 24px));
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 5px;
 
-    width: 100%;
-
-    margin-top: 0;
+    margin: 0;
   }
 
   .tile {
+    aspect-ratio: 1 / 1;
+
     border-width: 2px;
 
     font-size: 1.8rem;
   }
 
   .keyboard {
-    position: fixed;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: static;
 
     width: 100%;
     max-width: none;
 
     margin: 0;
 
-    padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
 
     display: flex;
     flex-direction: column;
@@ -1048,8 +1060,6 @@ html.light-mode {
     gap: 6px;
 
     box-sizing: border-box;
-
-    z-index: 20;
   }
 
   .keyboard-row {
@@ -1060,6 +1070,7 @@ html.light-mode {
 
   .keyboard-row:nth-child(2) {
     width: 90%;
+
     margin: 0 auto;
   }
 
