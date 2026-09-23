@@ -2,8 +2,7 @@
 
 A browser based Wordle game built from scratch using HTML, CSS and JavaScript.
 
-[Live Demo](https://zamrisharaff.github.io/Wordle-24-7/)
-[GitHub Repository](https://github.com/ZamriSharaff/Wordle-24-7.git)
+[Live Demo](https://zamrisharaff.github.io/Wordle-24-7/) | [GitHub Repository](https://github.com/ZamriSharaff/Wordle-24-7.git)
 
 ## About the project
 
