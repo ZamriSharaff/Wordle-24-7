@@ -457,11 +457,7 @@ function validateGuess() {
     return false;
   }
 
-  const validGuess = isAllowedGuess(
-    currentGuess,
-    allowedGuesses,
-    answerList
-  );
+  const validGuess = isAllowedGuess(currentGuess, allowedGuesses, answerList);
 
   if (!validGuess) {
     showMessage("Not in word list");
@@ -741,6 +737,7 @@ function hideHelp() {
   const overlay = document.getElementById("help-overlay");
 
   overlay.classList.remove("show");
+  localStorage.setItem("wordle-help-seen", "true");
 }
 
 /**
@@ -1114,6 +1111,17 @@ document.addEventListener("keydown", (event) => {
 });
 
 /**
+ * Opens the help panel automatically for first time users only.
+ */
+function showHelpForFirstVisit() {
+  const helpSeen = localStorage.getItem("wordle-help-seen");
+
+  if (!helpSeen) {
+    showHelp();
+  }
+}
+
+/**
  * Starts the game by loading data, restoring saved progress,
  * and setting up the interface.
  */
@@ -1149,6 +1157,8 @@ async function startGame() {
   if (gameOver) {
     showResultPanel();
   }
+
+  showHelpForFirstVisit();
 }
 
 startGame();

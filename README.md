@@ -64,7 +64,7 @@ The saved game includes:
 
 - Dark and light themes
 - Theme preference saved between sessions
-- Help panel explaining the game rules
+- Help panel explaining the game rules (Automatically opens for first time users)
 - New game button to reset and start fresh
 - Hard Mode information panel
 - End of game result panel with play again feature
