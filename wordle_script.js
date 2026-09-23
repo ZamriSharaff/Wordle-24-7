@@ -1148,6 +1148,7 @@ async function startGame() {
   setupNewGame();
   setupStatisticsButton();
   setupHelpPanel();
+  showHelpForFirstVisit();
   setupHardMode();
 
   setupOverlayClose("result-overlay", hideResultPanel);
@@ -1157,8 +1158,6 @@ async function startGame() {
   if (gameOver) {
     showResultPanel();
   }
-
-  showHelpForFirstVisit();
 }
 
 startGame();
