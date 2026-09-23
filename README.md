@@ -91,8 +91,10 @@ The game itself uses no frameworks or external runtime libraries. Vitest is incl
 
 The game uses two text files:
 
+```text
 wordle_answers_list.txt
 wordle_allowed_guesses.txt
+```
 
 The answer list contains words that can be selected as answers, while the allowed guesses list contains words that can be entered by the player.
 
@@ -205,6 +207,7 @@ npm run coverage
 
 ## Project structure
 
+```text
 Wordle_Game/
     index.html
     style.css
@@ -219,6 +222,7 @@ Wordle_Game/
     package-lock.json
     .gitignore
     README.md
+```
 
 ### File descriptions
 
